@@ -1,6 +1,6 @@
 {
-  "name": "FinMimo",
-  "short_name": "FinMimo",
+  "name": "AlgoFine",
+  "short_name": "AlgoFine",
   "description": "FinMimo - PWA version",
   "start_url": "/",
   "scope": "/",
