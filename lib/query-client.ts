@@ -4,12 +4,29 @@ import * as SecureStore from "expo-secure-store";
 import { Platform } from "react-native";
 
 export function getApiUrl(): string {
-  let host = process.env.EXPO_PUBLIC_DOMAIN;
-  if (!host) {
-    throw new Error("EXPO_PUBLIC_DOMAIN is not set");
+  const host = process.env.EXPO_PUBLIC_DOMAIN;
+
+  // اگر متغیر ست شده بود (برای حالت‌های خاص)، همون رو استفاده کن
+  if (host) {
+    return `https://${host}`;
   }
-  let url = new URL(`https://${host}`);
-  return url.href;
+
+  // روی وب: به صورت خودکار از آدرس فعلی سایت استفاده کن
+  if (Platform.OS === "web") {
+    if (typeof window !== "undefined" && window.location) {
+      const { protocol, hostname, origin } = window.location;
+
+      // حالت توسعه روی سیستم (اختیاری): API معمولاً روی 5000 هست
+      if (hostname === "localhost" || hostname === "127.0.0.1") {
+        return `${protocol}//${hostname}:5000`;
+      }
+
+      // حالت واقعی روی سرور
+      return origin;
+    }
+  }
+
+  throw new Error("Cannot determine API URL");
 }
 
 async function getToken(): Promise<string | null> {
