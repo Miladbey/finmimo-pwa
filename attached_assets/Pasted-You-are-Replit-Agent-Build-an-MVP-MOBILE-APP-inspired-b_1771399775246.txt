@@ -1,0 +1,180 @@
+You are Replit Agent. Build an MVP MOBILE APP inspired by the learning loop of Mimo (bite-sized lessons, interactive exercises with instant feedback, streaks, XP, skill paths, projects, progress tracking) but for FINANCIAL LEARNING (educational only, not financial advice). Name it “FinMimo” (placeholder).
+
+PLATFORM / STACK (mobile-first)
+- Mobile: React Native with Expo + TypeScript (one codebase for iOS + Android)
+- Backend: Node.js + TypeScript (Express) running in the same Replit project
+- DB: Postgres (use Replit Postgres if available; otherwise SQLite for dev, but keep schema portable)
+- ORM: Prisma
+- Auth: Email/password with JWT + refresh tokens (simple MVP). Store tokens securely on device (expo-secure-store).
+- AI: OpenAI-compatible SDK via backend only (never call AI directly from the client). Use env vars for keys.
+
+GOALS (MVP)
+1) User can sign up/login, choose a learning path, complete lessons with interactive questions and immediate feedback, earn XP, maintain a daily streak, and see progress.
+2) Admin can create/edit/publish paths/skills/lessons/exercises/projects via a simple admin API + an “Admin Mode” screen in the mobile app (role-protected).
+3) Include an AI Tutor chat screen that is context-aware (current lesson + user mistakes), can generate extra practice, and has strict guardrails (refuse financial advice).
+4) Seed at least one complete path in DB: “Personal Finance Foundations” with 5 skills, each skill has 6 lessons (≈30 lessons total) and 1 project per skill (guided forms).
+
+APP SCREENS & FLOWS
+A) Onboarding
+- Welcome → Sign up / Log in
+- Choose daily goal: 5 / 10 / 15 minutes
+- Choose focus: Budgeting / Debt / Investing basics / Markets
+- Optional quick placement quiz (5 questions) → store level
+
+B) Main Navigation (Bottom Tabs)
+Tabs: Home | Learn | Practice | Projects | Profile
+
+C) Home
+- Continue Learning card (next lesson)
+- Daily goal progress ring (lessons completed today)
+- Streak counter + “streak freeze” (1 free freeze per 14 days in MVP)
+- XP today + total XP
+- Button: Open Tutor (AI)
+
+D) Learn (Path Map)
+- Show Path list; start with one path.
+- Path detail: 5 skills as nodes; sequential unlocking.
+- Skill detail: 6 lessons + “Skill Quiz” at end.
+
+E) Lesson Player
+- Lesson is a series of cards:
+  - short read cards + interactive exercise cards
+- Exercise types (MVP):
+  1) Multiple choice
+  2) True/False
+  3) Numeric input (validate with ranges)
+- Immediate feedback: correct/incorrect + explanation + hint + retry
+- Track attempts and mastery; unlock next lesson on completion.
+
+F) Practice
+- “Spaced repetition-lite” queue: prioritize incorrect/low mastery exercises
+- 10-question session; award XP
+
+G) Projects (Guided)
+Each skill has 1 project that outputs a saved artifact shown in Profile.
+Projects (MVP as forms + computed summaries):
+1) Monthly Budget Builder (income, fixed, variable) → summary + ratios
+2) Emergency Fund Plan (target months, timeline) → plan summary
+3) Debt Payoff Simulator (snowball/avalanche) → schedule table
+4) Investing Simulator (DCA vs lump sum, assumed return slider) → outcomes
+5) Retirement Projection (age, contribution, assumed return) → projection
+Hard rule: show “Educational simulation only” on each project.
+
+H) AI Tutor (Chat Screen)
+- A chat UI called “Tutor”
+- Tutor sees context: current path/skill/lesson, current exercise prompt, user last attempts, and concept tags
+- Tutor can: explain in simple terms, provide analogies, step-by-step, generate extra practice questions, and review project inputs EDUCATIONALLY.
+
+GUARDRAILS (MUST IMPLEMENT)
+- The app is educational only, NOT financial advice. Always show disclaimer in Tutor and Projects.
+- If user asks: “what should I invest in / buy / sell / best stock / what coin / give me picks”:
+  - Refuse politely
+  - Provide general education + risk considerations + suggest licensed advisor
+  - Offer to teach how to evaluate options instead
+- No personalized investment recommendations. No promises of returns.
+
+Implement guardrails server-side:
+- /server/src/ai/guardrails.ts: intent rules (regex + heuristics) and safe responses
+- Only call the AI model if allowed by guardrails
+- If no AI key, Tutor works in fallback mode: canned explanations + lesson hints + extra practice from templates.
+
+GAMIFICATION RULES
+- XP: lesson completion +5, correct answer +2, project completion +20, practice session +15
+- Streak increments when daily goal met by local date; breaks if missed unless freeze used
+- Achievements: First Lesson, 3-day streak, First Project
+
+DATA MODEL (Prisma)
+- User (id, email, passwordHash, role, createdAt)
+- UserProfile (userId, dailyGoalMinutes, timezone, preferencesJson)
+- Path (id, title, description, order)
+- Skill (id, pathId, title, description, order)
+- Lesson (id, skillId, title, order, contentJson, isPublished)
+- Exercise (id, lessonId, type, prompt, optionsJson, answerJson, explanation, hint, tagsJson)
+- Attempt (id, userId, exerciseId, answerJson, isCorrect, createdAt)
+- Progress (id, userId, skillId, lessonId, status, masteryScore, updatedAt)
+- Streak (userId, current, longest, lastActiveDate, freezeCount, updatedAt)
+- XPEvent (id, userId, type, amount, createdAt)
+- Project (id, skillId, title, schemaJson)
+- ProjectSubmission (id, projectId, userId, dataJson, createdAt)
+- Achievement + UserAchievement
+
+SEED CONTENT (required)
+Seed DB with:
+Path: “Personal Finance Foundations”
+Skills (5):
+1) Budgeting Basics
+2) Saving & Emergency Funds
+3) Debt & Credit Fundamentals
+4) Investing Fundamentals
+5) Risk & Long-term Planning
+Each skill: 6 lessons (short titles) + a handful of exercises spread across lessons (keep coherent).
+Each skill: 1 project with schemaJson that the mobile UI can render.
+
+BACKEND API (Express)
+Auth:
+- POST /auth/signup
+- POST /auth/login
+- POST /auth/refresh
+- POST /auth/logout
+
+Content:
+- GET /paths
+- GET /paths/:id
+- GET /skills/:id
+- GET /lessons/:id (only published unless admin)
+- GET /practice/queue
+
+Learning actions:
+- POST /attempts (grade exercise; return feedback)
+- POST /lessons/:id/complete (award XP, update progress)
+- POST /projects/:id/submit (save artifact; award XP)
+
+Stats:
+- GET /me (profile, progress, streak, xp)
+- GET /leaderboard/weekly (optional)
+
+Admin (role-protected):
+- CRUD endpoints for paths/skills/lessons/exercises/projects
+- Publish/unpublish lessons
+
+AI:
+- POST /ai/tutor (context + message) → guardrails → model call or safe refusal
+
+MOBILE APP IMPLEMENTATION DETAILS
+- Expo Router for navigation OR React Navigation (choose one, be consistent)
+- State: React Query for API caching + Zustand for local UI state (optional)
+- Secure storage: expo-secure-store for tokens
+- Offline: cache last opened lessons and user progress locally (AsyncStorage) and sync attempts when online (basic queue is enough for MVP)
+- UI: clean, minimal, card-based lesson player, progress rings, streak badge
+
+REPO LAYOUT (MONOREPO)
+- /mobile (Expo app)
+- /server (Express API)
+- /prisma (schema, migrations, seed)
+- Root README with setup
+
+ENV VARS
+- DATABASE_URL
+- JWT_SECRET
+- AI_API_KEY (optional)
+- AI_BASE_URL (optional)
+
+DELIVERABLES
+1) Working Expo app (runs in iOS/Android simulator via Expo)
+2) Working Express backend in Replit + Prisma migrations + seed script
+3) Admin mode screen (protected) to create/edit/publish content
+4) AI Tutor screen with guardrails and fallback
+5) README: how to run server + mobile, how to migrate/seed, how to create an admin user
+
+IMPLEMENTATION ORDER
+1) Scaffold monorepo (Expo + Express)
+2) Prisma schema + migrations + seed content
+3) Auth (JWT + secure storage) end-to-end
+4) Learn path map + lesson player + exercise grading
+5) XP/streak/progress
+6) Practice
+7) Projects
+8) Admin mode
+9) AI tutor + guardrails + fallback
+
+Start now by scaffolding the Expo app and Express API, then implement Prisma + seed so the app can fetch the path and render the first lesson.
