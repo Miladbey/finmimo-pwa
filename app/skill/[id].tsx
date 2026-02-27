@@ -23,12 +23,12 @@ export default function SkillDetailScreen() {
   const bottomInset = Platform.OS === "web" ? 34 : insets.bottom;
   const { user } = useAuth();
 
-  const { data: skill, isLoading } = useQuery<any>({
+  const { data: skill, isدر حال بارگذاری } = useQuery<any>({
     queryKey: ["/api/skills", id],
     enabled: !!user && !!id,
   });
 
-  if (isLoading) {
+  if (isدر حال بارگذاری) {
     return (
       <View style={[styles.loadingContainer, { paddingTop: topInset }]}>
         <ActivityIndicator size="large" color={Colors.light.tint} />

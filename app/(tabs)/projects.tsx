@@ -105,7 +105,7 @@ function computeResults(title: string, data: Record<string, string>) {
   return [];
 }
 
-export default function ProjectsScreen() {
+export default function پروژه‌هاScreen() {
   const insets = useSafeAreaInsets();
   const topInset = Platform.OS === "web" ? 67 : insets.top;
   const { user } = useAuth();
@@ -115,7 +115,7 @@ export default function ProjectsScreen() {
 
   const { data: paths } = useQuery<any[]>({ queryKey: ["/api/paths"], enabled: !!user });
   const firstPathId = paths?.[0]?.id;
-  const { data: pathData, isLoading } = useQuery<any>({
+  const { data: pathData, isدر حال بارگذاری } = useQuery<any>({
     queryKey: ["/api/paths", firstPathId],
     enabled: !!firstPathId,
   });
@@ -146,7 +146,7 @@ export default function ProjectsScreen() {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
   };
 
-  const handleSubmit = async () => {
+  const handleارسال = async () => {
     if (!activeProject) return;
     try {
       await submitMutation.mutateAsync({ projectId: activeProject.id, data: formData });
@@ -175,7 +175,7 @@ export default function ProjectsScreen() {
 
         <View style={styles.disclaimerBox}>
           <Feather name="alert-triangle" size={16} color={Colors.light.accent} />
-          <Text style={styles.disclaimerText}>Educational simulation only. Not financial advice.</Text>
+          <Text style={styles.disclaimerText}>این یک شبیه‌سازی آموزشی است و توصیه مالی محسوب نمی‌شود.</Text>
         </View>
 
         {fields.map((field: any) => (
@@ -214,7 +214,7 @@ export default function ProjectsScreen() {
               </View>
             ))}
             <Pressable
-              onPress={handleSubmit}
+              onPress={handleارسال}
               disabled={submitMutation.isPending}
               style={({ pressed }) => [styles.saveButton, pressed && { opacity: 0.9 }]}
             >
@@ -228,7 +228,7 @@ export default function ProjectsScreen() {
     );
   }
 
-  if (isLoading) {
+  if (isدر حال بارگذاری) {
     return (
       <View style={[styles.container, styles.centered, { paddingTop: topInset }]}>
         <ActivityIndicator size="large" color={Colors.light.tint} />
@@ -242,7 +242,7 @@ export default function ProjectsScreen() {
       contentContainerStyle={[styles.content, { paddingTop: topInset + 16, paddingBottom: 100 }]}
       contentInsetAdjustmentBehavior="automatic"
     >
-      <Text style={styles.screenTitle}>Projects</Text>
+      <Text style={styles.screenTitle}>پروژه‌ها</Text>
       <Text style={styles.screenDesc}>
         Apply what you've learned with guided financial simulations.
       </Text>

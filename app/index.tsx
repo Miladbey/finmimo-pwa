@@ -4,9 +4,9 @@ import { View, ActivityIndicator, StyleSheet } from "react-native";
 import Colors from "@/constants/colors";
 
 export default function Index() {
-  const { user, isLoading } = useAuth();
+  const { user, isدر حال بارگذاری } = useAuth();
 
-  if (isLoading) {
+  if (isدر حال بارگذاری) {
     return (
       <View style={styles.loading}>
         <ActivityIndicator size="large" color={Colors.light.tint} />

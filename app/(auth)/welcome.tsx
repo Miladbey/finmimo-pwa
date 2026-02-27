@@ -13,7 +13,7 @@ import { Feather } from "@expo/vector-icons";
 import * as Haptics from "expo-haptics";
 import Colors from "@/constants/colors";
 
-export default function WelcomeScreen() {
+export default function خوش آمدیدScreen() {
   const insets = useSafeAreaInsets();
   const topInset = Platform.OS === "web" ? 67 : insets.top;
   const bottomInset = Platform.OS === "web" ? 34 : insets.bottom;
@@ -32,7 +32,7 @@ export default function WelcomeScreen() {
               <Feather name="trending-up" size={40} color="#fff" />
             </LinearGradient>
           </View>
-          <Text style={styles.title}>FinMimo</Text>
+          <Text style={styles.title}>الگوفاین</Text>
           <Text style={styles.subtitle}>
             Master personal finance{"\n"}one bite-sized lesson at a time
           </Text>

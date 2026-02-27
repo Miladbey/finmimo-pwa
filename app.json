@@ -1,11 +1,11 @@
 {
   "expo": {
-    "name": "AlgoFine",
-    "slug": "AlgoFine",
+    "name": "الگوفاین",
+    "slug": "algofine",
     "version": "1.0.0",
     "orientation": "portrait",
     "icon": "./assets/images/icon.png",
-    "scheme": "AlgoFine",
+    "scheme": "algofine",
     "userInterfaceStyle": "automatic",
     "newArchEnabled": true,
     "splash": {
@@ -28,9 +28,9 @@
       "favicon": "./assets/images/favicon.png",
       "bundler": "metro",
       "output": "static",
-      "name": "FinMimo",
-      "shortName": "FinMimo",
-      "description": "FinMimo PWA",
+      "name": "الگوفاین",
+      "shortName": "الگوفاین",
+      "description": "الگوفاین PWA",
       "themeColor": "#0B1A2E",
       "backgroundColor": "#0B1A2E",
       "display": "standalone",

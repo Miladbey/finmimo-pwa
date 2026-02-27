@@ -8,7 +8,7 @@ const JWT_SECRET = process.env.SESSION_SECRET || "finmimo-secret-key";
 
 export async function createUser(email: string, password: string, displayName: string) {
   const existing = await db.select().from(schema.users).where(eq(schema.users.email, email));
-  if (existing.length > 0) throw new Error("Email already registered");
+  if (existing.length > 0) throw new Error("ایمیل already registered");
 
   const passwordHash = await bcrypt.hash(password, 10);
   const [user] = await db
@@ -403,7 +403,7 @@ async function checkAchievements(userId: string) {
   }
 }
 
-export async function getNextLesson(userId: string) {
+export async function getبعدیLesson(userId: string) {
   const allPaths = await getPaths();
   if (allPaths.length === 0) return null;
 

@@ -23,23 +23,23 @@ export default function SignupScreen() {
   const bottomInset = Platform.OS === "web" ? 34 : insets.bottom;
   const { signup } = useAuth();
   const [displayName, setDisplayName] = useState("");
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setایمیل] = useState("");
+  const [password, setرمز عبور] = useState("");
+  const [loading, setدر حال بارگذاری] = useState(false);
+  const [showرمز عبور, setShowرمز عبور] = useState(false);
   const [error, setError] = useState("");
 
   const handleSignup = async () => {
     if (!displayName || !email || !password) {
-      setError("Please fill in all fields");
+      setError("لطفاً همه فیلدها را پر کنید.");
       return;
     }
     if (password.length < 6) {
-      setError("Password must be at least 6 characters");
+      setError("رمز عبور must be at least 6 characters");
       return;
     }
     setError("");
-    setLoading(true);
+    setدر حال بارگذاری(true);
     try {
       await signup(email, password, displayName);
       if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
@@ -48,7 +48,7 @@ export default function SignupScreen() {
       setError(e.message?.includes("already") ? "This email is already registered" : "Signup failed. Please try again.");
       if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } finally {
-      setLoading(false);
+      setدر حال بارگذاری(false);
     }
   };
 
@@ -69,7 +69,7 @@ export default function SignupScreen() {
         </Pressable>
 
         <View style={styles.header}>
-          <Text style={styles.title}>Create account</Text>
+          <Text style={styles.title}>ایجاد حساب</Text>
           <Text style={styles.subtitle}>Start your financial learning journey</Text>
         </View>
 
@@ -85,7 +85,7 @@ export default function SignupScreen() {
             <Feather name="user" size={20} color={Colors.light.textSecondary} style={styles.inputIcon} />
             <TextInput
               style={styles.input}
-              placeholder="Your name"
+              placeholder="شماr name"
               placeholderTextColor={Colors.light.tabIconDefault}
               value={displayName}
               onChangeText={setDisplayName}
@@ -97,10 +97,10 @@ export default function SignupScreen() {
             <Feather name="mail" size={20} color={Colors.light.textSecondary} style={styles.inputIcon} />
             <TextInput
               style={styles.input}
-              placeholder="Email address"
+              placeholder="ایمیل address"
               placeholderTextColor={Colors.light.tabIconDefault}
               value={email}
-              onChangeText={setEmail}
+              onChangeText={setایمیل}
               autoCapitalize="none"
               keyboardType="email-address"
               autoComplete="email"
@@ -111,14 +111,14 @@ export default function SignupScreen() {
             <Feather name="lock" size={20} color={Colors.light.textSecondary} style={styles.inputIcon} />
             <TextInput
               style={[styles.input, { flex: 1 }]}
-              placeholder="Password (6+ characters)"
+              placeholder="رمز عبور (6+ characters)"
               placeholderTextColor={Colors.light.tabIconDefault}
               value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
+              onChangeText={setرمز عبور}
+              secureTextEntry={!showرمز عبور}
             />
-            <Pressable onPress={() => setShowPassword(!showPassword)} style={styles.eyeButton}>
-              <Feather name={showPassword ? "eye-off" : "eye"} size={20} color={Colors.light.textSecondary} />
+            <Pressable onPress={() => setShowرمز عبور(!showرمز عبور)} style={styles.eyeButton}>
+              <Feather name={showرمز عبور ? "eye-off" : "eye"} size={20} color={Colors.light.textSecondary} />
             </Pressable>
           </View>
 
@@ -134,15 +134,15 @@ export default function SignupScreen() {
             {loading ? (
               <ActivityIndicator color="#fff" />
             ) : (
-              <Text style={styles.signupButtonText}>Create Account</Text>
+              <Text style={styles.signupButtonText}>ایجاد حساب</Text>
             )}
           </Pressable>
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Already have an account?</Text>
+          <Text style={styles.footerText}>حساب کاربری دارید؟</Text>
           <Pressable onPress={() => router.replace("/(auth)/login")}>
-            <Text style={styles.footerLink}>Sign In</Text>
+            <Text style={styles.footerLink}>ورود</Text>
           </Pressable>
         </View>
       </ScrollView>

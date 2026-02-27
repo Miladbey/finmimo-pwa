@@ -23,28 +23,28 @@ export default function LoginScreen() {
   const topInset = Platform.OS === "web" ? 67 : insets.top;
   const bottomInset = Platform.OS === "web" ? 34 : insets.bottom;
   const { login } = useAuth();
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const [loading, setLoading] = useState(false);
-  const [showPassword, setShowPassword] = useState(false);
+  const [email, setایمیل] = useState("");
+  const [password, setرمز عبور] = useState("");
+  const [loading, setدر حال بارگذاری] = useState(false);
+  const [showرمز عبور, setShowرمز عبور] = useState(false);
   const [error, setError] = useState("");
 
   const handleLogin = async () => {
     if (!email || !password) {
-      setError("Please fill in all fields");
+      setError("لطفاً همه فیلدها را پر کنید.");
       return;
     }
     setError("");
-    setLoading(true);
+    setدر حال بارگذاری(true);
     try {
       await login(email, password);
       if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Success);
       router.replace("/(tabs)");
     } catch (e: any) {
-      setError(e.message?.includes("Invalid") ? "Invalid email or password" : "Login failed. Please try again.");
+      setError(e.message?.includes("Invalid") ? "ایمیل یا رمز عبور نادرست است." : "ورود ناموفق بود. لطفاً دوباره تلاش کنید.");
       if (Platform.OS !== "web") Haptics.notificationAsync(Haptics.NotificationFeedbackType.Error);
     } finally {
-      setLoading(false);
+      setدر حال بارگذاری(false);
     }
   };
 
@@ -65,8 +65,8 @@ export default function LoginScreen() {
         </Pressable>
 
         <View style={styles.header}>
-          <Text style={styles.title}>Welcome back</Text>
-          <Text style={styles.subtitle}>Sign in to continue your learning journey</Text>
+          <Text style={styles.title}>خوش آمدید back</Text>
+          <Text style={styles.subtitle}>ورود to continue your learning journey</Text>
         </View>
 
         {!!error && (
@@ -81,10 +81,10 @@ export default function LoginScreen() {
             <Feather name="mail" size={20} color={Colors.light.textSecondary} style={styles.inputIcon} />
             <TextInput
               style={styles.input}
-              placeholder="Email address"
+              placeholder="ایمیل address"
               placeholderTextColor={Colors.light.tabIconDefault}
               value={email}
-              onChangeText={setEmail}
+              onChangeText={setایمیل}
               autoCapitalize="none"
               keyboardType="email-address"
               autoComplete="email"
@@ -95,15 +95,15 @@ export default function LoginScreen() {
             <Feather name="lock" size={20} color={Colors.light.textSecondary} style={styles.inputIcon} />
             <TextInput
               style={[styles.input, { flex: 1 }]}
-              placeholder="Password"
+              placeholder="رمز عبور"
               placeholderTextColor={Colors.light.tabIconDefault}
               value={password}
-              onChangeText={setPassword}
-              secureTextEntry={!showPassword}
+              onChangeText={setرمز عبور}
+              secureTextEntry={!showرمز عبور}
               autoComplete="password"
             />
-            <Pressable onPress={() => setShowPassword(!showPassword)} style={styles.eyeButton}>
-              <Feather name={showPassword ? "eye-off" : "eye"} size={20} color={Colors.light.textSecondary} />
+            <Pressable onPress={() => setShowرمز عبور(!showرمز عبور)} style={styles.eyeButton}>
+              <Feather name={showرمز عبور ? "eye-off" : "eye"} size={20} color={Colors.light.textSecondary} />
             </Pressable>
           </View>
 
@@ -119,15 +119,15 @@ export default function LoginScreen() {
             {loading ? (
               <ActivityIndicator color="#fff" />
             ) : (
-              <Text style={styles.loginButtonText}>Sign In</Text>
+              <Text style={styles.loginButtonText}>ورود</Text>
             )}
           </Pressable>
         </View>
 
         <View style={styles.footer}>
-          <Text style={styles.footerText}>Don't have an account?</Text>
+          <Text style={styles.footerText}>حساب کاربری ندارید؟</Text>
           <Pressable onPress={() => router.replace("/(auth)/signup")}>
-            <Text style={styles.footerLink}>Sign Up</Text>
+            <Text style={styles.footerLink}>ثبت‌نام</Text>
           </Pressable>
         </View>
       </ScrollView>

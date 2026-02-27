@@ -37,7 +37,7 @@ export default function LessonPlayerScreen() {
   const [correctCount, setCorrectCount] = useState(0);
   const [totalExercises, setTotalExercises] = useState(0);
 
-  const { data: lesson, isLoading } = useQuery<any>({
+  const { data: lesson, isدر حال بارگذاری } = useQuery<any>({
     queryKey: ["/api/lessons", id],
     enabled: !!user && !!id,
   });
@@ -60,7 +60,7 @@ export default function LessonPlayerScreen() {
     },
   });
 
-  if (isLoading) {
+  if (isدر حال بارگذاری) {
     return (
       <View style={[styles.loadingContainer, { paddingTop: topInset }]}>
         <ActivityIndicator size="large" color={Colors.light.tint} />
@@ -88,7 +88,7 @@ export default function LessonPlayerScreen() {
   const isLastCard = currentCardIndex >= allCards.length - 1;
   const progress = allCards.length > 0 ? (currentCardIndex + 1) / allCards.length : 0;
 
-  const handleSubmitAnswer = async () => {
+  const handleارسالAnswer = async () => {
     if (!currentCard || currentCard.type !== "exercise") return;
     const ex = currentCard.exercise;
 
@@ -110,7 +110,7 @@ export default function LessonPlayerScreen() {
     } catch {}
   };
 
-  const handleNext = async () => {
+  const handleبعدی = async () => {
     if (isLastCard) {
       await completeMutation.mutateAsync();
       setCompleted(true);
@@ -131,7 +131,7 @@ export default function LessonPlayerScreen() {
             <Feather name="check-circle" size={56} color={Colors.light.tint} />
           </Animated.View>
           <Animated.Text entering={FadeInDown.delay(200)} style={styles.completedTitle}>
-            Lesson Complete!
+            درس کامل شد!
           </Animated.Text>
           <Animated.Text entering={FadeInDown.delay(400)} style={styles.completedSub}>
             {lesson.title}
@@ -154,7 +154,7 @@ export default function LessonPlayerScreen() {
             onPress={() => router.back()}
             style={({ pressed }) => [styles.doneButton, pressed && { opacity: 0.9 }]}
           >
-            <Text style={styles.doneText}>Continue</Text>
+            <Text style={styles.doneText}>ادامه</Text>
           </Pressable>
         </View>
       </View>
@@ -208,7 +208,7 @@ export default function LessonPlayerScreen() {
                     styles.optionButton,
                     selectedAnswer === i && !feedback && styles.optionSelected,
                     feedback && i === selectedAnswer && feedback.isCorrect && styles.optionCorrect,
-                    feedback && i === selectedAnswer && !feedback.isCorrect && styles.optionIncorrect,
+                    feedback && i === selectedAnswer && !feedback.isCorrect && styles.optionنادرست,
                     feedback && !feedback.isCorrect && i === (feedback.correctAnswer as any)?.correct && styles.optionCorrect,
                   ]}
                 >
@@ -239,7 +239,7 @@ export default function LessonPlayerScreen() {
                     styles.tfButton,
                     selectedAnswer === val && !feedback && styles.optionSelected,
                     feedback && selectedAnswer === val && feedback.isCorrect && styles.optionCorrect,
-                    feedback && selectedAnswer === val && !feedback.isCorrect && styles.optionIncorrect,
+                    feedback && selectedAnswer === val && !feedback.isCorrect && styles.optionنادرست,
                   ]}
                 >
                   <Feather
@@ -274,7 +274,7 @@ export default function LessonPlayerScreen() {
           )}
 
           {feedback && (
-            <View style={[styles.feedbackCard, feedback.isCorrect ? styles.feedbackCorrect : styles.feedbackIncorrect]}>
+            <View style={[styles.feedbackCard, feedback.isCorrect ? styles.feedbackCorrect : styles.feedbackنادرست]}>
               <View style={styles.feedbackHeader}>
                 <Feather
                   name={feedback.isCorrect ? "check-circle" : "x-circle"}
@@ -282,7 +282,7 @@ export default function LessonPlayerScreen() {
                   color={feedback.isCorrect ? Colors.light.correct : Colors.light.incorrect}
                 />
                 <Text style={[styles.feedbackTitle, { color: feedback.isCorrect ? Colors.light.correct : Colors.light.incorrect }]}>
-                  {feedback.isCorrect ? "Correct!" : "Not quite"}
+                  {feedback.isCorrect ? "درست است!" : "Not quite"}
                 </Text>
               </View>
               <Text style={styles.feedbackExplanation}>{feedback.explanation}</Text>
@@ -294,7 +294,7 @@ export default function LessonPlayerScreen() {
 
           {!feedback && (
             <Pressable
-              onPress={handleSubmitAnswer}
+              onPress={handleارسالAnswer}
               disabled={selectedAnswer === null && !numericAnswer}
               style={({ pressed }) => [
                 styles.submitButton,
@@ -302,7 +302,7 @@ export default function LessonPlayerScreen() {
                 pressed && { opacity: 0.9 },
               ]}
             >
-              <Text style={styles.submitText}>Check Answer</Text>
+              <Text style={styles.submitText}>بررسی پاسخ</Text>
             </Pressable>
           )}
         </Animated.View>
@@ -310,11 +310,11 @@ export default function LessonPlayerScreen() {
 
       {(currentCard?.type === "read" || feedback) && (
         <Pressable
-          onPress={handleNext}
+          onPress={handleبعدی}
           style={({ pressed }) => [styles.nextButton, pressed && { opacity: 0.9 }]}
         >
           <Text style={styles.nextText}>
-            {isLastCard ? "Complete Lesson" : "Continue"}
+            {isLastCard ? "Complete Lesson" : "ادامه"}
           </Text>
           <Feather name={isLastCard ? "check" : "arrow-right"} size={18} color="#fff" />
         </Pressable>
@@ -400,7 +400,7 @@ const styles = StyleSheet.create({
   },
   optionSelected: { borderColor: Colors.light.tint, backgroundColor: "rgba(0,184,124,0.05)" },
   optionCorrect: { borderColor: Colors.light.correct, backgroundColor: "rgba(0,184,124,0.08)" },
-  optionIncorrect: { borderColor: Colors.light.incorrect, backgroundColor: "rgba(229,62,62,0.08)" },
+  optionنادرست: { borderColor: Colors.light.incorrect, backgroundColor: "rgba(229,62,62,0.08)" },
   optionText: {
     fontSize: 15,
     fontFamily: "Inter_500Medium",
@@ -441,7 +441,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   feedbackCorrect: { backgroundColor: "rgba(0,184,124,0.1)" },
-  feedbackIncorrect: { backgroundColor: "rgba(229,62,62,0.1)" },
+  feedbackنادرست: { backgroundColor: "rgba(229,62,62,0.1)" },
   feedbackHeader: { flexDirection: "row", alignItems: "center", gap: 8 },
   feedbackTitle: { fontSize: 16, fontFamily: "Inter_600SemiBold" },
   feedbackExplanation: {

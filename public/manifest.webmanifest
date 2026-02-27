@@ -1,7 +1,7 @@
 {
-  "name": "AlgoFine",
-  "short_name": "AlgoFine",
-  "description": "FinMimo - PWA version",
+  "name": "الگوفاین",
+  "short_name": "الگوفاین",
+  "description": "الگوفاین - PWA version",
   "start_url": "/",
   "scope": "/",
   "display": "standalone",

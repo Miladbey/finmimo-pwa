@@ -49,12 +49,12 @@ function ProgressRing({ progress, size = 64, strokeWidth = 5 }: { progress: numb
   );
 }
 
-export default function HomeScreen() {
+export default function خانهScreen() {
   const insets = useSafeAreaInsets();
   const topInset = Platform.OS === "web" ? 67 : insets.top;
   const { user } = useAuth();
 
-  const { data, isLoading, refetch, isRefetching } = useQuery<any>({
+  const { data, isدر حال بارگذاری, refetch, isRefetching } = useQuery<any>({
     queryKey: ["/api/me"],
     enabled: !!user,
   });
@@ -65,7 +65,7 @@ export default function HomeScreen() {
   const lessonsForGoal = Math.ceil(dailyGoal / 3);
   const todayProgress = Math.min((stats?.todayLessons || 0) / lessonsForGoal, 1);
 
-  if (isLoading) {
+  if (isدر حال بارگذاری) {
     return (
       <View style={[styles.loadingContainer, { paddingTop: topInset }]}>
         <ActivityIndicator size="large" color={Colors.light.tint} />
@@ -85,7 +85,7 @@ export default function HomeScreen() {
       <View style={styles.greetingRow}>
         <View style={{ flex: 1 }}>
           <Text style={styles.greeting}>
-            Hello, {stats?.user?.displayName?.split(" ")[0] || "Learner"}
+            Hello, {stats?.user?.displayName?.split(" ")[0] || "یادگیریer"}
           </Text>
           <Text style={styles.greetingSub}>Keep up the great work!</Text>
         </View>
@@ -108,7 +108,7 @@ export default function HomeScreen() {
             <Feather name="zap" size={18} color={Colors.light.streak} />
           </View>
           <Text style={styles.statValue}>{stats?.todayXp || 0}</Text>
-          <Text style={styles.statLabel}>Today's XP</Text>
+          <Text style={styles.statLabel}>امروز's XP</Text>
         </View>
         <View style={styles.statCard}>
           <View style={styles.statIconWrap}>
@@ -123,14 +123,14 @@ export default function HomeScreen() {
         style={({ pressed }) => [styles.dailyGoalCard, pressed && { opacity: 0.95 }]}
       >
         <View style={styles.dailyGoalLeft}>
-          <Text style={styles.dailyGoalTitle}>Daily Goal</Text>
+          <Text style={styles.dailyGoalTitle}>هدف روزانه</Text>
           <Text style={styles.dailyGoalSub}>
-            {stats?.todayLessons || 0} / {lessonsForGoal} lessons today
+            {stats?.todayLessons || 0} / {lessonsForGoal} درس امروز
           </Text>
           {todayProgress >= 1 && (
             <View style={styles.completedBadge}>
               <Feather name="check" size={14} color={Colors.light.tint} />
-              <Text style={styles.completedText}>Completed!</Text>
+              <Text style={styles.completedText}>تکمیل شد!</Text>
             </View>
           )}
         </View>
@@ -156,7 +156,7 @@ export default function HomeScreen() {
           >
             <View style={styles.continueTop}>
               <View style={styles.continuePill}>
-                <Text style={styles.continuePillText}>Continue Learning</Text>
+                <Text style={styles.continuePillText}>ادامه یادگیریing</Text>
               </View>
               <Feather name="arrow-right" size={20} color="rgba(255,255,255,0.6)" />
             </View>
@@ -171,9 +171,9 @@ export default function HomeScreen() {
       {!nextLesson && (stats?.completedLessons || 0) > 0 && (
         <View style={styles.allDoneCard}>
           <Feather name="award" size={32} color={Colors.light.accent} />
-          <Text style={styles.allDoneTitle}>All caught up!</Text>
+          <Text style={styles.allDoneTitle}>همه چیز به‌روز است!</Text>
           <Text style={styles.allDoneSub}>
-            You've completed all available lessons. Try some practice exercises!
+            همه درس‌های موجود را کامل کرده‌اید. Try some practice exercises!
           </Text>
         </View>
       )}
@@ -189,7 +189,7 @@ export default function HomeScreen() {
           <Ionicons name="fitness-outline" size={22} color={Colors.light.xp} />
         </View>
         <View style={{ flex: 1 }}>
-          <Text style={styles.actionTitle}>Practice</Text>
+          <Text style={styles.actionTitle}>تمرین</Text>
           <Text style={styles.actionSub}>Review exercises to strengthen your knowledge</Text>
         </View>
         <Feather name="chevron-right" size={20} color={Colors.light.tabIconDefault} />

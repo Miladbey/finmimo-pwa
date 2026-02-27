@@ -12,23 +12,23 @@ function NativeTabLayout() {
     <NativeTabs>
       <NativeTabs.Trigger name="index">
         <Icon sf={{ default: "house", selected: "house.fill" }} />
-        <Label>Home</Label>
+        <Label>خانه</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="learn">
         <Icon sf={{ default: "book", selected: "book.fill" }} />
-        <Label>Learn</Label>
+        <Label>یادگیری</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="practice">
         <Icon sf={{ default: "brain.head.profile", selected: "brain.head.profile.fill" }} />
-        <Label>Practice</Label>
+        <Label>تمرین</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="projects">
         <Icon sf={{ default: "hammer", selected: "hammer.fill" }} />
-        <Label>Projects</Label>
+        <Label>پروژه‌ها</Label>
       </NativeTabs.Trigger>
       <NativeTabs.Trigger name="profile">
         <Icon sf={{ default: "person", selected: "person.fill" }} />
-        <Label>Profile</Label>
+        <Label>پروفایل</Label>
       </NativeTabs.Trigger>
     </NativeTabs>
   );
@@ -54,7 +54,7 @@ function ClassicTabLayout() {
           elevation: 0,
           ...(isWeb ? { height: 84 } : {}),
         },
-        tabBarBackground: () =>
+        tabBarبازگشتground: () =>
           isIOS ? (
             <BlurView
               intensity={100}
@@ -73,7 +73,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="index"
         options={{
-          title: "Home",
+          title: "خانه",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="home-outline" size={size} color={color} />
           ),
@@ -82,7 +82,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="learn"
         options={{
-          title: "Learn",
+          title: "یادگیری",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="book-outline" size={size} color={color} />
           ),
@@ -91,7 +91,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="practice"
         options={{
-          title: "Practice",
+          title: "تمرین",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="fitness-outline" size={size} color={color} />
           ),
@@ -100,7 +100,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="projects"
         options={{
-          title: "Projects",
+          title: "پروژه‌ها",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="hammer-outline" size={size} color={color} />
           ),
@@ -109,7 +109,7 @@ function ClassicTabLayout() {
       <Tabs.Screen
         name="profile"
         options={{
-          title: "Profile",
+          title: "پروفایل",
           tabBarIcon: ({ color, size }) => (
             <Ionicons name="person-outline" size={size} color={color} />
           ),

@@ -16,23 +16,23 @@ import * as Haptics from "expo-haptics";
 import { useAuth } from "@/lib/auth-context";
 import Colors from "@/constants/colors";
 
-export default function ProfileScreen() {
+export default function پروفایلScreen() {
   const insets = useSafeAreaInsets();
   const topInset = Platform.OS === "web" ? 67 : insets.top;
   const { user, logout } = useAuth();
 
-  const { data: stats, isLoading } = useQuery<any>({
+  const { data: stats, isدر حال بارگذاری } = useQuery<any>({
     queryKey: ["/api/me"],
     enabled: !!user,
   });
 
-  const handleLogout = async () => {
+  const handleخروج = async () => {
     if (Platform.OS !== "web") Haptics.impactAsync(Haptics.ImpactFeedbackStyle.Medium);
     await logout();
     router.replace("/(auth)/welcome");
   };
 
-  if (isLoading) {
+  if (isدر حال بارگذاری) {
     return (
       <View style={[styles.loadingContainer, { paddingTop: topInset }]}>
         <ActivityIndicator size="large" color={Colors.light.tint} />
@@ -48,7 +48,7 @@ export default function ProfileScreen() {
       contentContainerStyle={[styles.content, { paddingTop: topInset + 16, paddingBottom: 100 }]}
       contentInsetAdjustmentBehavior="automatic"
     >
-      <Text style={styles.screenTitle}>Profile</Text>
+      <Text style={styles.screenTitle}>پروفایل</Text>
 
       <View style={styles.profileCard}>
         <View style={styles.avatarCircle}>
@@ -127,7 +127,7 @@ export default function ProfileScreen() {
       </View>
 
       <Pressable
-        onPress={handleLogout}
+        onPress={handleخروج}
         style={({ pressed }) => [styles.logoutButton, pressed && { opacity: 0.9 }]}
       >
         <Feather name="log-out" size={18} color={Colors.light.error} />

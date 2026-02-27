@@ -17,7 +17,7 @@ import { apiRequest, queryClient } from "@/lib/query-client";
 import { useAuth } from "@/lib/auth-context";
 import Colors from "@/constants/colors";
 
-export default function PracticeScreen() {
+export default function تمرینScreen() {
   const insets = useSafeAreaInsets();
   const topInset = Platform.OS === "web" ? 67 : insets.top;
   const { user } = useAuth();
@@ -30,7 +30,7 @@ export default function PracticeScreen() {
   const [answeredCount, setAnsweredCount] = useState(0);
   const [sessionComplete, setSessionComplete] = useState(false);
 
-  const { data: queue, isLoading, refetch } = useQuery<any[]>({
+  const { data: queue, isدر حال بارگذاری, refetch } = useQuery<any[]>({
     queryKey: ["/api/practice/queue"],
     enabled: !!user && sessionStarted,
   });
@@ -54,7 +54,7 @@ export default function PracticeScreen() {
 
   const currentExercise = queue?.[currentIndex];
 
-  const handleSubmit = async () => {
+  const handleارسال = async () => {
     if (!currentExercise) return;
 
     let answer: any;
@@ -82,7 +82,7 @@ export default function PracticeScreen() {
     } catch {}
   };
 
-  const handleNext = () => {
+  const handleبعدی = () => {
     setFeedback(null);
     setSelectedAnswer(null);
     setNumericAnswer("");
@@ -112,7 +112,7 @@ export default function PracticeScreen() {
           <View style={styles.startIcon}>
             <Feather name="repeat" size={40} color={Colors.light.xp} />
           </View>
-          <Text style={styles.startTitle}>Practice Mode</Text>
+          <Text style={styles.startTitle}>حالت تمرین</Text>
           <Text style={styles.startDesc}>
             Review exercises you've encountered before. Focus on areas where you need improvement.
           </Text>
@@ -124,14 +124,14 @@ export default function PracticeScreen() {
             }}
             style={({ pressed }) => [styles.startButton, pressed && { opacity: 0.9 }]}
           >
-            <Text style={styles.startButtonText}>Start Practice</Text>
+            <Text style={styles.startButtonText}>شروع تمرین</Text>
           </Pressable>
         </View>
       </View>
     );
   }
 
-  if (isLoading) {
+  if (isدر حال بارگذاری) {
     return (
       <View style={[styles.container, styles.centered, { paddingTop: topInset }]}>
         <ActivityIndicator size="large" color={Colors.light.tint} />
@@ -165,7 +165,7 @@ export default function PracticeScreen() {
             onPress={handleNewSession}
             style={({ pressed }) => [styles.startButton, pressed && { opacity: 0.9 }]}
           >
-            <Text style={styles.startButtonText}>Practice Again</Text>
+            <Text style={styles.startButtonText}>تمرین Again</Text>
           </Pressable>
         </View>
       </View>
@@ -210,7 +210,7 @@ export default function PracticeScreen() {
                 styles.optionButton,
                 selectedAnswer === i && !feedback && styles.optionSelected,
                 feedback && i === selectedAnswer && feedback.isCorrect && styles.optionCorrect,
-                feedback && i === selectedAnswer && !feedback.isCorrect && styles.optionIncorrect,
+                feedback && i === selectedAnswer && !feedback.isCorrect && styles.optionنادرست,
                 feedback && !feedback.isCorrect && i === (feedback.correctAnswer as any)?.correct && styles.optionCorrect,
               ]}
             >
@@ -219,7 +219,7 @@ export default function PracticeScreen() {
                   styles.optionText,
                   selectedAnswer === i && !feedback && styles.optionTextSelected,
                   feedback && i === selectedAnswer && feedback.isCorrect && styles.optionTextCorrect,
-                  feedback && i === selectedAnswer && !feedback.isCorrect && styles.optionTextIncorrect,
+                  feedback && i === selectedAnswer && !feedback.isCorrect && styles.optionTextنادرست,
                 ]}
               >
                 {option}
@@ -243,7 +243,7 @@ export default function PracticeScreen() {
                 styles.tfButton,
                 selectedAnswer === val && !feedback && styles.optionSelected,
                 feedback && selectedAnswer === val && feedback.isCorrect && styles.optionCorrect,
-                feedback && selectedAnswer === val && !feedback.isCorrect && styles.optionIncorrect,
+                feedback && selectedAnswer === val && !feedback.isCorrect && styles.optionنادرست,
               ]}
             >
               <Feather
@@ -287,7 +287,7 @@ export default function PracticeScreen() {
       )}
 
       {feedback && (
-        <View style={[styles.feedbackCard, feedback.isCorrect ? styles.feedbackCorrect : styles.feedbackIncorrect]}>
+        <View style={[styles.feedbackCard, feedback.isCorrect ? styles.feedbackCorrect : styles.feedbackنادرست]}>
           <View style={styles.feedbackHeader}>
             <Feather
               name={feedback.isCorrect ? "check-circle" : "x-circle"}
@@ -295,7 +295,7 @@ export default function PracticeScreen() {
               color={feedback.isCorrect ? Colors.light.correct : Colors.light.incorrect}
             />
             <Text style={[styles.feedbackTitle, { color: feedback.isCorrect ? Colors.light.correct : Colors.light.incorrect }]}>
-              {feedback.isCorrect ? "Correct!" : "Not quite"}
+              {feedback.isCorrect ? "درست است!" : "Not quite"}
             </Text>
           </View>
           <Text style={styles.feedbackExplanation}>{feedback.explanation}</Text>
@@ -307,7 +307,7 @@ export default function PracticeScreen() {
 
       {!feedback && (
         <Pressable
-          onPress={handleSubmit}
+          onPress={handleارسال}
           disabled={selectedAnswer === null && !numericAnswer}
           style={({ pressed }) => [
             styles.submitButton,
@@ -315,17 +315,17 @@ export default function PracticeScreen() {
             pressed && { opacity: 0.9 },
           ]}
         >
-          <Text style={styles.submitText}>Check Answer</Text>
+          <Text style={styles.submitText}>بررسی پاسخ</Text>
         </Pressable>
       )}
 
       {feedback && (
         <Pressable
-          onPress={handleNext}
+          onPress={handleبعدی}
           style={({ pressed }) => [styles.nextButton, pressed && { opacity: 0.9 }]}
         >
           <Text style={styles.nextText}>
-            {currentIndex + 1 >= queue.length ? "Finish Session" : "Next Question"}
+            {currentIndex + 1 >= queue.length ? "Finish Session" : "بعدی Question"}
           </Text>
           <Feather name="arrow-right" size={18} color="#fff" />
         </Pressable>
@@ -423,7 +423,7 @@ const styles = StyleSheet.create({
   },
   optionSelected: { borderColor: Colors.light.tint, backgroundColor: "rgba(0,184,124,0.05)" },
   optionCorrect: { borderColor: Colors.light.correct, backgroundColor: "rgba(0,184,124,0.08)" },
-  optionIncorrect: { borderColor: Colors.light.incorrect, backgroundColor: "rgba(229,62,62,0.08)" },
+  optionنادرست: { borderColor: Colors.light.incorrect, backgroundColor: "rgba(229,62,62,0.08)" },
   optionText: {
     fontSize: 15,
     fontFamily: "Inter_500Medium",
@@ -431,7 +431,7 @@ const styles = StyleSheet.create({
   },
   optionTextSelected: { color: Colors.light.tint },
   optionTextCorrect: { color: Colors.light.correct },
-  optionTextIncorrect: { color: Colors.light.incorrect },
+  optionTextنادرست: { color: Colors.light.incorrect },
   tfContainer: { flexDirection: "row", gap: 12, marginBottom: 24 },
   tfButton: {
     flex: 1,
@@ -467,7 +467,7 @@ const styles = StyleSheet.create({
     gap: 8,
   },
   feedbackCorrect: { backgroundColor: "rgba(0,184,124,0.1)" },
-  feedbackIncorrect: { backgroundColor: "rgba(229,62,62,0.1)" },
+  feedbackنادرست: { backgroundColor: "rgba(229,62,62,0.1)" },
   feedbackHeader: { flexDirection: "row", alignItems: "center", gap: 8 },
   feedbackTitle: {
     fontSize: 16,

@@ -1,9 +1,9 @@
-import type { Express, Request, Response, NextFunction } from "express";
+import type { Express, Request, Response, بعدیFunction } from "express";
 import { createServer, type Server } from "node:http";
 import { signupSchema, loginSchema } from "@shared/schema";
 import * as storage from "./storage";
 
-function authMiddleware(req: Request, res: Response, next: NextFunction) {
+function authMiddleware(req: Request, res: Response, next: بعدیFunction) {
   const authHeader = req.headers.authorization;
   if (!authHeader || !authHeader.startsWith("Bearer ")) {
     return res.status(401).json({ message: "Unauthorized" });
@@ -55,7 +55,7 @@ export async function registerRoutes(app: Express): Promise<Server> {
       if (!user) return res.status(404).json({ message: "User not found" });
 
       const stats = await storage.getUserStats(userId);
-      const nextLesson = await storage.getNextLesson(userId);
+      const nextLesson = await storage.getبعدیLesson(userId);
       const userProgress = await storage.getUserProgress(userId);
 
       res.json({

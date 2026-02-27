@@ -19,18 +19,18 @@ import Colors from "@/constants/colors";
 
 const skillColors = ["#00B87C", "#FFB800", "#E53E3E", "#7C3AED", "#FF6B35"];
 
-export default function LearnScreen() {
+export default function یادگیریScreen() {
   const insets = useSafeAreaInsets();
   const topInset = Platform.OS === "web" ? 67 : insets.top;
   const { user } = useAuth();
 
-  const { data: paths, isLoading: pathsLoading } = useQuery<any[]>({
+  const { data: paths, isدر حال بارگذاری: pathsدر حال بارگذاری } = useQuery<any[]>({
     queryKey: ["/api/paths"],
     enabled: !!user,
   });
 
   const firstPathId = paths?.[0]?.id;
-  const { data: pathData, isLoading: pathLoading } = useQuery<any>({
+  const { data: pathData, isدر حال بارگذاری: pathدر حال بارگذاری } = useQuery<any>({
     queryKey: ["/api/paths", firstPathId],
     enabled: !!firstPathId,
   });
@@ -46,9 +46,9 @@ export default function LearnScreen() {
       .map((p: any) => p.lessonId)
   );
 
-  const isLoading = pathsLoading || pathLoading;
+  const isدر حال بارگذاری = pathsدر حال بارگذاری || pathدر حال بارگذاری;
 
-  if (isLoading) {
+  if (isدر حال بارگذاری) {
     return (
       <View style={[styles.loadingContainer, { paddingTop: topInset }]}>
         <ActivityIndicator size="large" color={Colors.light.tint} />
@@ -78,7 +78,7 @@ export default function LearnScreen() {
       contentContainerStyle={[styles.content, { paddingTop: topInset + 16, paddingBottom: 100 }]}
       contentInsetAdjustmentBehavior="automatic"
     >
-      <Text style={styles.screenTitle}>Learn</Text>
+      <Text style={styles.screenTitle}>یادگیری</Text>
 
       {path && (
         <LinearGradient
